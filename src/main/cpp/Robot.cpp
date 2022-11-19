@@ -11,7 +11,47 @@ void Robot::AutonomousInit() {}
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {}
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+
+  double forwardSpeed = -xboxController.GetRightY();
+  double rotationSpeed;
+  
+  if (xboxController.GetAButton()) {
+
+    // Vision-alignment mode
+
+    // Query the latest result from PhotonVision
+
+    photonlib::PhotonPipelineResult result = camera.GetLatestResult();
+
+
+    if (result.HasTargets()) {
+
+      // Rotation speed is the output of the PID controller
+
+      rotationSpeed = -controller.Calculate(result.GetBestTarget().GetYaw(), 0);
+
+    } else {
+
+      // If we have no targets, stay still.
+
+      rotationSpeed = 0;
+
+    }
+
+  } else {
+
+    // Manual Driver Mode
+
+    rotationSpeed = xboxController.GetLeftX();
+
+  }
+
+
+  // Use our forward/turn speeds to control the drivetrain
+
+  drive.ArcadeDrive(forwardSpeed, rotationSpeed);
+}
 
 void Robot::DisabledInit() {}
 void Robot::DisabledPeriodic() {}
