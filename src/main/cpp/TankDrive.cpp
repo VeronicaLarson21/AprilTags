@@ -12,7 +12,8 @@ LeftB(LeftBackNeo, rev::CANSparkMax::MotorType::kBrushless),
 LeftT(LeftTopNeo, rev::CANSparkMax::MotorType::kBrushless),
 RightF(RightFrontNeo, rev::CANSparkMax::MotorType::kBrushless),
 RightB(RightBackNeo, rev::CANSparkMax::MotorType::kBrushless),
-RightT(RightTopNeo, rev::CANSparkMax::MotorType::kBrushless),
+RightT(RightTopNeo, rev::CANSparkMax::MotorType::kBrushless)
+{}
 
 void Tankdrive::Drive(float left, float right){
 
