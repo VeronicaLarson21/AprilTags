@@ -13,55 +13,45 @@ void Robot::AutonomousPeriodic() {}
 void Robot::TeleopInit() {}
 void Robot::TeleopPeriodic() {
 
-  double forwardSpeed = -xboxController.GetRightY();
-  double rotationSpeed;
-  
-  if (xboxController.GetAButton()) {
+//this code is simple right left adjustment based on yaw
+  if (stick1.GetTrigger()) {
 
     // Vision-alignment mode
 
     // Query the latest result from PhotonVision
 
     photonlib::PhotonPipelineResult result = camera.GetLatestResult();
-
+ 
 
     if (result.HasTargets()) {
 
       // Rotation speed is the output of the PID controller
 
-      rotationSpeed = -controller.Calculate(result.GetBestTarget().GetYaw(), 0);
+      rotationSpeed = -controllerSideSide.Calculate(result.GetBestTarget().GetYaw(), 0);
+      tankdrive.Drive(basespeed-rotationSpeed,basespeed+rotationSpeed);
+       units::meter_t range = photonlib::PhotonUtils::CalculateDistanceToTarget(
+          CAMERA_HEIGHT, TARGET_HEIGHT, CAMERA_PITCH,
+          units::degree_t{result.GetBestTarget().GetPitch()});
+      SmartDashboard::PutNumber("Range Total",range.value());
+      SmartDashboard::PutNumber("Diffrence between desired and total",range.value()-GOAL_RANGE_METERS.value());
 
     } else {
 
-      // If we have no targets, stay still.
-
-      rotationSpeed = 0;
+      // If we have no targets just manual drive
+      tankdrive.Drive(stick1.GetY(), stick2.GetY());
 
     }
 
-  } else {
-
-    // Manual Driver Mode
-
-    rotationSpeed = xboxController.GetLeftX();
-
-  }
-
-
-  // Use our forward/turn speeds to control the drivetrain
-
-  drive.ArcadeDrive(forwardSpeed, rotationSpeed);
+  } 
 }
+
+  
 
 void Robot::DisabledInit() {}
 void Robot::DisabledPeriodic() {}
 
 void Robot::TestInit() {}
 void Robot::TestPeriodic() {}
-
-void Robot::SimulationInit() {}
-void Robot::SimulationPeriodic() {}
-
 #ifndef RUNNING_FRC_TESTS
 int main() {
   return frc::StartRobot<Robot>();

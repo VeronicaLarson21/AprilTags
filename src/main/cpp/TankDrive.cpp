@@ -1,12 +1,12 @@
 
 #include "TankDrive.h"
 
-//Need to def variables for throttle and motor ports based on the constants file
+//Need to def variables for throttle based on the constants file
 // Convencion: Teleob gets joystick vals, AUTO: feed positive vals
 
-Tankdrive::Tankdrive(int gyroport):
-
+Tankdrive::Tankdrive():
 //defines the motors
+
 LeftF(LeftFrontNeo, rev::CANSparkMax::MotorType::kBrushless),
 LeftB(LeftBackNeo, rev::CANSparkMax::MotorType::kBrushless),
 LeftT(LeftTopNeo, rev::CANSparkMax::MotorType::kBrushless),
@@ -14,9 +14,8 @@ RightF(RightFrontNeo, rev::CANSparkMax::MotorType::kBrushless),
 RightB(RightBackNeo, rev::CANSparkMax::MotorType::kBrushless),
 RightT(RightTopNeo, rev::CANSparkMax::MotorType::kBrushless),
 
+void Tankdrive::Drive(float left, float right){
 
-void Tankdrive::Drive(float left, float right)
-{
 	// Limit left and right inputs to between -1 and 1
 	if(left > 1.0)
 		left = 1.0;
