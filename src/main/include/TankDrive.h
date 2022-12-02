@@ -17,7 +17,7 @@ public:
 	void Drive(float left, float right);
 	void DirectDrive(float left, float right);
 private:
-	float throttle;
+	float throttle = 0.1;
 	int LeftBackNeo = 4;
 	int LeftFrontNeo = 5;
 	int LeftTopNeo = 6;

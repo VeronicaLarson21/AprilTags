@@ -46,7 +46,7 @@ class Robot : public frc::TimedRobot {
   const double D_GAIN = 0.0;
   frc2::PIDController controllerFrontBack{P_GAIN, 0.0, D_GAIN};
   //need to figure out what LL camera would be called
-  photonlib::PhotonCamera camera{"photonvision"};
+  photonlib::PhotonCamera camera{"gloworm"};
   Tankdrive tankdrive;
   Joystick stick1{0}; 
   Joystick stick2{1};

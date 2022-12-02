@@ -29,11 +29,12 @@ void Robot::TeleopPeriodic() {
 
       rotationSpeed = -controllerSideSide.Calculate(result.GetBestTarget().GetYaw(), 0);
       tankdrive.Drive(basespeed-rotationSpeed,basespeed+rotationSpeed);
-       units::meter_t range = photonlib::PhotonUtils::CalculateDistanceToTarget(
+       /*units::meter_t range = photonlib::PhotonUtils::CalculateDistanceToTarget(
           CAMERA_HEIGHT, TARGET_HEIGHT, CAMERA_PITCH,
           units::degree_t{result.GetBestTarget().GetPitch()});
       SmartDashboard::PutNumber("Range Total",range.value());
       SmartDashboard::PutNumber("Diffrence between desired and total",range.value()-GOAL_RANGE_METERS.value());
+      */
 
     } else {
 
