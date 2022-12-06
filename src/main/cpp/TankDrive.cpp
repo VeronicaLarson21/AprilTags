@@ -7,12 +7,13 @@
 Tankdrive::Tankdrive():
 //defines the motors
 
-LeftF(LeftFrontNeo, rev::CANSparkMax::MotorType::kBrushless),
-LeftB(LeftBackNeo, rev::CANSparkMax::MotorType::kBrushless),
-LeftT(LeftTopNeo, rev::CANSparkMax::MotorType::kBrushless),
-RightF(RightFrontNeo, rev::CANSparkMax::MotorType::kBrushless),
-RightB(RightBackNeo, rev::CANSparkMax::MotorType::kBrushless),
-RightT(RightTopNeo, rev::CANSparkMax::MotorType::kBrushless)
+//some reason this struct is being finkicky about passing a variable to the port nums. dont know why but it works this way i think its a issue with a constant vs a inst ill look later
+LeftF(5, rev::CANSparkMax::MotorType::kBrushless),
+LeftB(4, rev::CANSparkMax::MotorType::kBrushless),
+LeftT(6, rev::CANSparkMax::MotorType::kBrushless),
+RightF(8, rev::CANSparkMax::MotorType::kBrushless),
+RightB(7, rev::CANSparkMax::MotorType::kBrushless),
+RightT(9, rev::CANSparkMax::MotorType::kBrushless)
 {}
 
 void Tankdrive::Drive(float left, float right){

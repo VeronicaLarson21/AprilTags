@@ -31,12 +31,12 @@ class Robot : public frc::TimedRobot {
   //will need to be tuned yay *sarcastic*
   frc2::PIDController controllerSideSide{.1, 0, 0};
   //semi easy to just yknow see but these are hight of cam and hight of what the cams looking at
-  const units::meter_t CAMERA_HEIGHT = 24_in;
+  const units::meter_t CAMERA_HEIGHT = 23_in;
   const units::meter_t TARGET_HEIGHT = 5_ft;
   //angle of camera from horizontal, i assume horizontal at the hight its at
-  const units::radian_t CAMERA_PITCH = 0_deg;
+  const units::radian_t CAMERA_PITCH = 48.19_deg;
   //how far from target we want
-  const units::meter_t GOAL_RANGE_METERS = 3_ft;
+  const units::meter_t GOAL_RANGE_METERS = 4_ft;
   //more tuning! 
   //i want to get left and right working first before i do drive ups so this pid will sit for a hot sec
   //why does the front back need P and D? 
@@ -46,7 +46,7 @@ class Robot : public frc::TimedRobot {
   const double D_GAIN = 0.0;
   frc2::PIDController controllerFrontBack{P_GAIN, 0.0, D_GAIN};
   //need to figure out what LL camera would be called
-  photonlib::PhotonCamera camera{"photonvision"};
+  photonlib::PhotonCamera camera{"gloworm"};
   Tankdrive tankdrive;
   Joystick stick1{0}; 
   Joystick stick2{1};

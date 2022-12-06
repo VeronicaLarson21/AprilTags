@@ -12,38 +12,37 @@ void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {}
 void Robot::TeleopPeriodic() {
-
+   
+ photonlib::PhotonPipelineResult result = camera.GetLatestResult();
 //this code is simple right left adjustment based on yaw
-  if (stick1.GetTrigger()) {
+  if (stick1.GetTrigger() && result.HasTargets()) {
 
+      SmartDashboard::PutNumber("targets?",1);
     // Vision-alignment mode
 
     // Query the latest result from PhotonVision
 
-    photonlib::PhotonPipelineResult result = camera.GetLatestResult();
- 
-
-    if (result.HasTargets()) {
-
+    
       // Rotation speed is the output of the PID controller
 
       rotationSpeed = -controllerSideSide.Calculate(result.GetBestTarget().GetYaw(), 0);
       tankdrive.Drive(basespeed-rotationSpeed,basespeed+rotationSpeed);
+    
        units::meter_t range = photonlib::PhotonUtils::CalculateDistanceToTarget(
           CAMERA_HEIGHT, TARGET_HEIGHT, CAMERA_PITCH,
           units::degree_t{result.GetBestTarget().GetPitch()});
       SmartDashboard::PutNumber("Range Total",range.value());
       SmartDashboard::PutNumber("Diffrence between desired and total",range.value()-GOAL_RANGE_METERS.value());
-
-    } else {
-
+      
+    } else if(stick1.GetTrigger()) {
+      SmartDashboard::PutNumber("targets?",0);
       // If we have no targets just manual drive
       tankdrive.Drive(stick1.GetY(), stick2.GetY());
 
     }
 
   } 
-}
+
 
   
 
