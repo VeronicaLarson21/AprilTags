@@ -32,9 +32,9 @@ class Robot : public frc::TimedRobot {
   frc2::PIDController controllerSideSide{.1, 0, 0};
   //semi easy to just yknow see but these are hight of cam and hight of what the cams looking at
   const units::meter_t CAMERA_HEIGHT = 23_in;
-  const units::meter_t TARGET_HEIGHT = 5_ft;
+  const units::meter_t TARGET_HEIGHT = 6.25_ft;
   //angle of camera from horizontal, i assume horizontal at the hight its at
-  const units::radian_t CAMERA_PITCH = 48.19_deg;
+  const units::radian_t CAMERA_PITCH = 43.2_deg;
   //how far from target we want
   const units::meter_t GOAL_RANGE_METERS = 4_ft;
   //more tuning! 
@@ -52,4 +52,5 @@ class Robot : public frc::TimedRobot {
   Joystick stick2{1};
   double basespeed = 0.01;
   double rotationSpeed; 
+  double fowardSpeed;
 };

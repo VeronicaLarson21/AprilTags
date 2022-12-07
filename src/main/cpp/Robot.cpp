@@ -16,6 +16,9 @@ void Robot::TeleopPeriodic() {
  photonlib::PhotonPipelineResult result = camera.GetLatestResult();
 //this code is simple right left adjustment based on yaw
   if (stick1.GetTrigger() && result.HasTargets()) {
+      units::meter_t range = photonlib::PhotonUtils::CalculateDistanceToTarget(
+          CAMERA_HEIGHT, TARGET_HEIGHT, CAMERA_PITCH,
+          units::degree_t{result.GetBestTarget().GetPitch()});
 
       SmartDashboard::PutNumber("targets?",1);
     // Vision-alignment mode
@@ -24,13 +27,12 @@ void Robot::TeleopPeriodic() {
 
     
       // Rotation speed is the output of the PID controller
+       fowardSpeed = -controllerFrontBack.Calculate(range.value(),GOAL_RANGE_METERS.value());
 
       rotationSpeed = -controllerSideSide.Calculate(result.GetBestTarget().GetYaw(), 0);
       tankdrive.Drive(basespeed-rotationSpeed,basespeed+rotationSpeed);
+      //tankdrive.DirectDrive(-fowardSpeed,-fowardSpeed);
     
-       units::meter_t range = photonlib::PhotonUtils::CalculateDistanceToTarget(
-          CAMERA_HEIGHT, TARGET_HEIGHT, CAMERA_PITCH,
-          units::degree_t{result.GetBestTarget().GetPitch()});
       SmartDashboard::PutNumber("Range Total",range.value());
       SmartDashboard::PutNumber("Diffrence between desired and total",range.value()-GOAL_RANGE_METERS.value());
       
