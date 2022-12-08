@@ -14,7 +14,7 @@ public:
 	rev::CANSparkMax RightF;
 	rev::CANSparkMax RightB;
 	rev::CANSparkMax RightT;
-	void Drive(float left, float right);
+	void Drive(double left, double right);
 	void DirectDrive(float left, float right);
 private:
 	float throttle=0.1;

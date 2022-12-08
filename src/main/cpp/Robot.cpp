@@ -23,7 +23,17 @@ void Robot::TeleopPeriodic() {
       //frc::ChassisSpeeds chassisSpeeds(fowardSpeed,0,rotationSpeed);
       tankdrive.Drive(basespeed-rotationSpeed,basespeed+rotationSpeed);
       //tankdrive.DirectDrive(-fowardSpeed,-fowardSpeed);
-    
+      /*
+      frc::DifferentialDriveWheelSpeeds sideSide(test_mph,test_mps);
+      frc::DifferentialDriveWheelSpeeds frontBack(test_mps,test_mps);
+      auto [sideSideFowardBackVelo,ignoreVeloSideSide,sideSideAngularVelo] = kinematics.ToChassisSpeeds(sideSide);
+      auto [frontBackFowardBackVelo,ignoreVeloFrontBack,frontBackAngularVelo] = kinematics.ToChassisSpeeds(frontBack);
+
+      SmartDashboard::PutNumber("sideSideFowardBackVelo",sideSideFowardBackVelo.value());
+      SmartDashboard::PutNumber("frontBackFowardBackVelo",frontBackFowardBackVelo.value());
+      SmartDashboard::PutNumber("sideSideAngularVelo",sideSideAngularVelo.value());
+      SmartDashboard::PutNumber("frontBackAngularVelo",frontBackAngularVelo.value());
+      */
       SmartDashboard::PutNumber("Range Total",range.value());
       SmartDashboard::PutNumber("Diffrence between desired and total",range.value()-GOAL_RANGE_METERS.value());
       

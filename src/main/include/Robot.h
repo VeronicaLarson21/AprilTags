@@ -55,5 +55,5 @@ class Robot : public frc::TimedRobot {
   double rotationSpeed; 
   double fowardSpeed; 
   //Change to real distance between wheel vals
-  frc::DifferentialDriveKinematics kinematics{27_in};
+  frc::DifferentialDriveKinematics kinematics{17_in};
 };

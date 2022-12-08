@@ -16,7 +16,7 @@ RightB(7, rev::CANSparkMax::MotorType::kBrushless),
 RightT(9, rev::CANSparkMax::MotorType::kBrushless)
 {}
 
-void Tankdrive::Drive(float left, float right){
+void Tankdrive::Drive(double left, double right){
 
 	// Limit left and right inputs to between -1 and 1
 	if(left > 1.0)
