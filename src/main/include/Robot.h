@@ -13,6 +13,7 @@
 #include <frc/kinematics/ChassisSpeeds.h>
 #include <frc/kinematics/DifferentialDriveKinematics.h>
 #include <frc/kinematics/DifferentialDriveWheelSpeeds.h>
+#include <units/velocity.h>
 
 
 class Robot : public frc::TimedRobot {
