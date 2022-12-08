@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "Robot.h"
-
 void Robot::RobotInit() {}
 void Robot::RobotPeriodic() {}
 
@@ -14,22 +13,14 @@ void Robot::TeleopInit() {}
 void Robot::TeleopPeriodic() {
    
  photonlib::PhotonPipelineResult result = camera.GetLatestResult();
-//this code is simple right left adjustment based on yaw
   if (stick1.GetTrigger() && result.HasTargets()) {
-      units::meter_t range = photonlib::PhotonUtils::CalculateDistanceToTarget(
-          CAMERA_HEIGHT, TARGET_HEIGHT, CAMERA_PITCH,
-          units::degree_t{result.GetBestTarget().GetPitch()});
-
+      units::meter_t range = photonlib::PhotonUtils::CalculateDistanceToTarget(CAMERA_HEIGHT, TARGET_HEIGHT, CAMERA_PITCH,units::degree_t{result.GetBestTarget().GetPitch()});
       SmartDashboard::PutNumber("targets?",1);
-    // Vision-alignment mode
 
-    // Query the latest result from PhotonVision
-
-    
-      // Rotation speed is the output of the PID controller
-       fowardSpeed = -controllerFrontBack.Calculate(range.value(),GOAL_RANGE_METERS.value());
-
+      fowardSpeed = -controllerFrontBack.Calculate(range.value(),GOAL_RANGE_METERS.value());
       rotationSpeed = -controllerSideSide.Calculate(result.GetBestTarget().GetYaw(), 0);
+
+      //frc::ChassisSpeeds chassisSpeeds(fowardSpeed,0,rotationSpeed);
       tankdrive.Drive(basespeed-rotationSpeed,basespeed+rotationSpeed);
       //tankdrive.DirectDrive(-fowardSpeed,-fowardSpeed);
     

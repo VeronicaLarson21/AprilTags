@@ -1,7 +1,6 @@
 #pragma once
 #include <photonlib/PhotonCamera.h>
 #include <photonlib/PhotonUtils.h>
-#include <frc/TimedRobot.h>
 #include <frc/controller/PIDController.h>
 #include <frc/drive/DifferentialDrive.h>
 #include <frc/motorcontrol/PWMVictorSPX.h>
@@ -10,9 +9,11 @@
 #include <frc/TimedRobot.h>
 #include "TankDrive.h"
 #include <frc/Joystick.h>
-#include <units/angle.h>
-#include <units/length.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/kinematics/ChassisSpeeds.h>
+#include <frc/kinematics/DifferentialDriveKinematics.h>
+#include <frc/kinematics/DifferentialDriveWheelSpeeds.h>
+
 
 class Robot : public frc::TimedRobot {
  public:
@@ -52,5 +53,7 @@ class Robot : public frc::TimedRobot {
   Joystick stick2{1};
   double basespeed = 0.01;
   double rotationSpeed; 
-  double fowardSpeed;
+  double fowardSpeed; 
+  //Change to real distance between wheel vals
+  frc::DifferentialDriveKinematics kinematics{27_in};
 };
