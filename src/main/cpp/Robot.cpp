@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "Robot.h"
+
 void Robot::RobotInit() {}
 void Robot::RobotPeriodic() {}
 
@@ -21,18 +22,16 @@ void Robot::TeleopPeriodic() {
       rotationSpeed = -controllerSideSide.Calculate(result.GetBestTarget().GetYaw(), 0);
 
       //frc::ChassisSpeeds chassisSpeeds(fowardSpeed,0,rotationSpeed);
-      tankdrive.Drive(basespeed-rotationSpeed,basespeed+rotationSpeed);
+      //tankdrive.Drive(basespeed-rotationSpeed,basespeed+rotationSpeed);
       //tankdrive.DirectDrive(-fowardSpeed,-fowardSpeed);
-      units::meters_per_second test = 1;
-      frc::DifferentialDriveWheelSpeeds sideSide(test,test);
-      frc::DifferentialDriveWheelSpeeds frontBack(test,test);
-      auto [sideSideFowardBackVelo,ignoreVeloSideSide,sideSideAngularVelo] = kinematics.ToChassisSpeeds(sideSide);
-      auto [frontBackFowardBackVelo,ignoreVeloFrontBack,frontBackAngularVelo] = kinematics.ToChassisSpeeds(frontBack);
-
-      SmartDashboard::PutNumber("sideSideFowardBackVelo",sideSideFowardBackVelo.value());
-      SmartDashboard::PutNumber("frontBackFowardBackVelo",frontBackFowardBackVelo.value());
-      SmartDashboard::PutNumber("sideSideAngularVelo",sideSideAngularVelo.value());
-      SmartDashboard::PutNumber("frontBackAngularVelo",frontBackAngularVelo.value());
+      units::velocity::meters_per_second_t fowardSpeedmps{fowardSpeed};
+      units::angular_velocity::radians_per_second_t rotationSpeedmps{fowardSpeed};
+      //auto fowardSpeedmps = fowardSpeed_mps;
+      
+      //for kinematics testing just going to use left right to test the correct movement
+      ChassisSpeeds chassisSpeeds{0_mps,0_mps,rotationSpeedmps};
+      auto [left, right] = kinematics.ToWheelSpeeds(chassisSpeeds);
+      tankdrive.Drive(left.value(), right.value());
       
       SmartDashboard::PutNumber("Range Total",range.value());
       SmartDashboard::PutNumber("Diffrence between desired and total",range.value()-GOAL_RANGE_METERS.value());
