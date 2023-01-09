@@ -6,7 +6,7 @@
 
 Tankdrive::Tankdrive():
 //defines the motors
-
+odometry(gyro.GetHeadingRotation2dRIOGryo()),
 //some reason this struct is being finkicky about passing a variable to the port nums. dont know why but it works this way i think its a issue with a constant vs a inst ill look later
 LeftF(5, rev::CANSparkMax::MotorType::kBrushless),
 LeftB(4, rev::CANSparkMax::MotorType::kBrushless),
@@ -55,4 +55,52 @@ void Tankdrive::DirectDrive(float left, float right)
 	RightF.Set(right*-1.0);
 	RightB.Set(right*-1.0);
 	RightT.Set(right*-1.0);
+}
+
+double Tankdrive::GetRightFrontEncoder()
+{
+	return rightFrontEncoder.GetPosition()-rEncoderOffset;
+}
+
+double Tankdrive::GetLeftFrontEncoder()
+{
+	return leftFrontEncoder.GetPosition()-lEncoderOffset;
+}
+
+void Tankdrive::ResetEncoders()
+{
+	rEncoderOffset = rightFrontEncoder.GetPosition();
+	lEncoderOffset = leftFrontEncoder.GetPosition();
+}
+
+units::meter_t Tankdrive::RightDistance(){
+	double rotationRight = rightFrontEncoder.GetPosition()-rotationRight;
+	units::meter_t rDistance{rotationRight*distanceConversionFactor};
+	return rDistance;
+}
+
+units::meter_t Tankdrive::LeftDistance(){
+	double rotationLeft = leftFrontEncoder.GetPosition()-rotationLeft;
+	units::meter_t rDistance{rotationLeft*distanceConversionFactor};
+	return rDistance;
+}
+
+units::meter_t Tankdrive::GetAverageDistance(){
+	units::meter_t avgDistance = (LeftDistance()+RightDistance())/2;
+	return avgDistance;
+	
+}
+
+frc::Pose2d Tankdrive::GetOdometryPose(){
+	return odometry.GetPose();
+}
+
+void Tankdrive::UpdateOdometry(){
+	frc::Rotation2d gyroAng = -gyro.GetHeadingRotation2dRIOGryo();
+	odometry.Update(gyroAng,LeftDistance(),RightDistance());
+}
+
+void Tankdrive::ResetOdometry(frc::Pose2d pose){
+	ResetEncoders();
+	odometry.ResetPosition(pose,gyro.GetHeadingRotation2dRIOGryo());
 }

@@ -9,14 +9,6 @@
 #include "TankDrive.h"
 #include <frc/Joystick.h>
 #include <frc/smartdashboard/SmartDashboard.h>
-#include <frc/kinematics/ChassisSpeeds.h>
-#include <frc/kinematics/DifferentialDriveKinematics.h>
-#include <frc/kinematics/DifferentialDriveOdometry.h>
-#include <frc/kinematics/DifferentialDriveWheelSpeeds.h>
-#include <units/velocity.h>
-#include <units/angular_acceleration.h>
-#include <units/angular_velocity.h>
-#include <units/acceleration.h>
 #include "GyroFunctions.h"
 
 
@@ -62,6 +54,4 @@ class Robot : public frc::TimedRobot {
   double rotationSpeed; 
   double fowardSpeed; 
   //Change to real distance between wheel vals
-  frc::DifferentialDriveKinematics kinematics{17_in};
-  frc::DifferentialDriveOdometry m_odometry{gyro.GetHeadingRotation2dRIOGryo(),frc::Pose2d{0_m, 0_m, 0_rad}};
 };

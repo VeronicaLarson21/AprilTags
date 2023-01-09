@@ -14,6 +14,7 @@ void Robot::TeleopInit() {}
 void Robot::TeleopPeriodic() {
    
  photonlib::PhotonPipelineResult result = camera.GetLatestResult();
+ //m_odometry.Update(gyro.GetHeadingRIOGyro());
   if (stick1.GetTrigger() && result.HasTargets()) {
       units::meter_t range = photonlib::PhotonUtils::CalculateDistanceToTarget(CAMERA_HEIGHT, TARGET_HEIGHT, CAMERA_PITCH,units::degree_t{result.GetBestTarget().GetPitch()});
       SmartDashboard::PutNumber("targets?",1);
@@ -29,9 +30,9 @@ void Robot::TeleopPeriodic() {
       //auto fowardSpeedmps = fowardSpeed_mps;
       
       //for kinematics testing just going to use left right to test the correct movement
-      ChassisSpeeds chassisSpeeds{0_mps,0_mps,rotationSpeedmps};
-      auto [left, right] = kinematics.ToWheelSpeeds(chassisSpeeds);
-      tankdrive.Drive(left.value(), right.value());
+      //ChassisSpeeds chassisSpeeds{0_mps,0_mps,rotationSpeedmps};
+      //auto [left, right] = kinematics.ToWheelSpeeds(chassisSpeeds);
+      //tankdrive.Drive(left.value(), right.value());
       
       SmartDashboard::PutNumber("Range Total",range.value());
       SmartDashboard::PutNumber("Diffrence between desired and total",range.value()-GOAL_RANGE_METERS.value());
